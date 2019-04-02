@@ -1,4 +1,7 @@
 {{yield}}
 <div>
-  <h1>Questions: {{question}}?</h1>
+  <h1>Questions: </h1>
+  {{#each questions as |question|}}
+    <h3>{{question.name}}</h3>
+  {{/each}}
 </div>
