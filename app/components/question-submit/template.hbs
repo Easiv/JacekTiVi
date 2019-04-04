@@ -1,0 +1,3 @@
+{{paper-input textarea=true block=true label="New Question" maxlength=50 passThru=(hash rows=3 maxRows=3)
+  value=name onChange=(action (mut name))}}
+{{#paper-button raised=true primary=true onClick=(action "submitQuestion" name)}}Submit{{/paper-button}}
