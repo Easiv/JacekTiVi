@@ -2,6 +2,6 @@
 <div>
   <h1>Questions: </h1>
   {{#each questions as |question|}}
-    <h3>{{question.name}}</h3>
+    {{#link-to 'questions.question' question.id}}<h3>{{question.name}} {{question.id}}</h3>{{/link-to}}
   {{/each}}
 </div>
