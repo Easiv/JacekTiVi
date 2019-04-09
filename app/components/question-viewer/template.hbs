@@ -2,7 +2,7 @@
 <div>
   <h1>Questions: </h1>
   {{#each questions as |question|}}
-    {{#link-to 'questions.question' question.id}}<h3>{{question.name}} {{question.id}}</h3>{{/link-to}}
+    {{#link-to 'question' question.id}}<h3>{{question.name}} {{question.id}}</h3>{{/link-to}}
     {{#paper-button raised=true primary=true onClick=(action 'updateQuestion' question)}}Edit{{/paper-button}}
     {{#paper-button raised=true primary=true onClick=(action 'deleteQuestion' question)}}Delete{{/paper-button}}
   {{/each}}
