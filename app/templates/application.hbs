@@ -1,3 +1,15 @@
-Root Page
+{{#paper-toolbar as |toolbar|}}
+  {{#toolbar.tools}}
+    {{#link-to 'application'}}
+      <h2>JacekTiVi</h2>
+    {{/link-to}}
+    <span class="stretch"></span>
+    {{#link-to 'questions'}}
+      {{#paper-button raised=true}}
+        <span class="red-text">Questions</span>
+      {{/paper-button}}
+    {{/link-to}}
+   {{/toolbar.tools}}
+ {{/paper-toolbar}}
 
 {{outlet}}

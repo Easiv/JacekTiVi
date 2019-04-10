@@ -1,2 +1,11 @@
 $primary: 'red';
+$accent: 'orange';
 @import 'ember-paper';
+
+.stretch {
+  width: 2%;
+}
+
+.red-text {
+  color: red;
+}
