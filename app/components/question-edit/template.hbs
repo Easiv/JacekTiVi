@@ -1,4 +1,24 @@
-{{#paper-button raised=true primary=true onClick=(action 'toggleEdit')}}Edit{{/paper-button}}
-{{#if this.isEditing}}
-<h1>edytuje</h1>
-{{/if}}
+<div class="layout-row layout-align-center-center">
+  <div class="flex-80 single-card">
+    {{#paper-card as |card|}}
+      {{#card.title as |title|}}
+        {{#title.text as |text|}}
+          {{#if this.isEditing}}
+          {{paper-input textarea=true block=true label="Editing question"
+            maxlength=50 passThru=(hash rows=3 maxRows=3)
+            value=name onChange=(action (mut name))}}
+            <span {{action 'updateQuestion' question name}}>
+              {{paper-icon 'done'}}
+            </span>
+            {{else}}
+              {{#text.headline}}{{question.name}}{{/text.headline}}
+          {{/if}}
+        {{/title.text}}
+      {{/card.title}}
+      {{#card.actions}}
+        <span {{action 'toggleEdit'}}>{{paper-icon 'edit'}}</span>
+        <span {{action 'deleteQuestion' question}}>{{paper-icon 'delete'}}</span>
+      {{/card.actions}}
+    {{/paper-card}}
+  </div>
+</div>
