@@ -1,8 +1,18 @@
-<div>
-  <h1>Questions: </h1>
+<div class="layout-row layout-wrap">
   {{#each questions as |question|}}
-    {{#link-to 'question' question.id}}<h3>{{question.name}} {{question.id}}</h3>{{/link-to}}
-    {{#paper-button raised=true primary=true onClick=(action 'updateQuestion' question)}}Edit{{/paper-button}}
-    {{#paper-button raised=true primary=true onClick=(action 'deleteQuestion' question)}}Delete{{/paper-button}}
+    <div class="flex-20">
+      {{#paper-card as |card|}}
+        {{#card.title as |title|}}
+          {{#title.text as |text|}}
+            {{#link-to 'question' question.id}}
+              {{#text.headline}}{{question.name}}{{/text.headline}}
+            {{/link-to}}
+          {{/title.text}}
+        {{/card.title}}
+        {{#card.actions}}
+          <span {{action 'deleteQuestion' question}}>{{paper-icon 'delete'}}</span>
+        {{/card.actions}}
+      {{/paper-card}}
+    </div>
   {{/each}}
 </div>

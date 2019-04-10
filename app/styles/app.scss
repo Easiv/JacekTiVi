@@ -2,6 +2,11 @@ $primary: 'red';
 $accent: 'orange';
 @import 'ember-paper';
 
+body a {
+  text-decoration: none;
+  color: black;
+}
+
 .stretch {
   width: 2%;
 }
