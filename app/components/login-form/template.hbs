@@ -1,0 +1,27 @@
+<div class="layout-row layout-xs-column layout-align-center">
+  <div class="layout-column flex-xs flex-gt-xs-50 spacer">
+    {{#paper-card as |card|}}
+      {{#card.title as |title|}}
+        {{#title.text as |text|}}
+          {{#text.headline}}Wybierz swój nick{{/text.headline}}
+        {{/title.text}}
+      {{/card.title}}
+      {{#paper-form onSubmit=(action "createUser") as |form|}}
+        <div class="layout-row layout-align-center">
+          <div class="layout-column flex-80">
+            {{form.input label="Twój nick" value=name onChange=(action (mut name)) required=true}}
+          </div>
+        </div>
+        <div class="layout-row layout-align-center">
+          <div class="layout-column flex-70">
+          </div>
+          <div class="layout-column">
+            {{#paper-button raised=true primary=true onClick=(action 'createUser' name)}}Dalej{{/paper-button}}
+          </div>
+        </div>
+      {{/paper-form}}
+    {{/paper-card}}
+  </div>
+</div>
+
+{{yield}}

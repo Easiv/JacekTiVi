@@ -1,20 +1,34 @@
-$primary: 'red';
+$primary: 'blue';
 $accent: 'orange';
+
 @import 'ember-paper';
+
+body {
+  background-image: url('/background.jpg');
+}
 
 body a {
   text-decoration: none;
   color: black;
 }
 
+.button-text {
+  color: $primary;
+}
+
+.spacer {
+  margin-top: 10%;
+}
+
 .stretch {
   width: 2%;
 }
 
-.red-text {
-  color: red;
-}
 
 .single-card {
   padding: 2%;
+}
+
+.opacity {
+  opacity: 70%;
 }
