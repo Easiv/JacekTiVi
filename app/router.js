@@ -12,6 +12,7 @@ Router.map(function() {
   });
   this.route('question', { path: 'question/:question_id'});
   this.route('play');
+  this.route('users');
 });
 
 export default Router;
