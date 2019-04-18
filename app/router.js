@@ -11,8 +11,9 @@ Router.map(function() {
     this.route('new');
   });
   this.route('question', { path: 'question/:question_id'});
-  this.route('play');
+  this.route('play', function() {});
   this.route('users');
+  this.route('kwiplasz');
 });
 
 export default Router;
