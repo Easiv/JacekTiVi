@@ -1,23 +1,30 @@
 <div class="layout-row layout-xs-column layout-align-center">
   <div class="layout-column flex-xs flex-gt-xs-50 spacer">
-    {{#paper-card as |card|}}
-      {{#card.title as |title|}}
-        {{#title.text as |text|}}
-          {{#text.headline}}Nowy pokój{{/text.headline}}
-          {{#text.subhead}}Stwórz nowy pokój i zaproś znajomych{{/text.subhead}}
-        {{/title.text}}
-        {{title.media size="lg" src="/stworz.png" alt="Stworz" title="Stworz"}}
-      {{/card.title}}
-    {{/paper-card}}
-
-    {{#paper-card as |card|}}
-      {{#card.title as |title|}}
-        {{#title.text as |text|}}
-          {{#text.headline}}Dołącz{{/text.headline}}
-          {{#text.subhead}}Dołącz do istniejącego pokoju{{/text.subhead}}
-        {{/title.text}}
-        {{title.media size="lg" src="/dolacz.png" alt="Dolacz" title="Dolacz"}}
-      {{/card.title}}
-    {{/paper-card}}
+    <span> 
+      {{#paper-card as |card|}}
+        {{#card.title as |title|}}
+          {{#title.text as |text|}}
+            {{#text.headline}}Nowy pokój{{/text.headline}}
+            {{#text.subhead}}Stwórz nowy pokój i zaproś znajomych{{/text.subhead}}
+            {{paper-input class="flex-30" label="Name" value=name onChange=(action (mut name))}}
+            {{#paper-button onClick=(action 'createRoom' name)}}Stwórz{{/paper-button}}
+          {{/title.text}}
+          {{title.media size="lg" src="/stworz.png" alt="Stworz" title="Stworz"}}
+        {{/card.title}}
+      {{/paper-card}}
+    </span>
+    <span>
+      {{#paper-card as |card|}}
+        {{#card.title as |title|}}
+          {{#title.text as |text|}}
+            {{#text.headline}}Dołącz{{/text.headline}}
+            {{#text.subhead}}Dołącz do istniejącego pokoju{{/text.subhead}}
+            {{paper-input class="flex-30" label="Id pokoju" value=id onChange=(action (mut id))}}
+            {{#paper-button onClick=(action 'findRoom' id)}}Dołącz{{/paper-button}}
+          {{/title.text}}
+          {{title.media size="lg" src="/dolacz.png" alt="Dolacz" title="Dolacz"}}
+        {{/card.title}}
+      {{/paper-card}}
+    </span>
   </div>
 </div>

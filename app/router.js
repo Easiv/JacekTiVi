@@ -14,6 +14,7 @@ Router.map(function() {
   this.route('play', function() {});
   this.route('users');
   this.route('kwiplasz');
+  this.route('room', { path: 'kwiplasz/:room_id'});
 });
 
 export default Router;
