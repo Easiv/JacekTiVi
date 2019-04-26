@@ -1,3 +1,19 @@
-{{paper-input textarea=true block=true label="New Question" maxlength=50 passThru=(hash rows=3 maxRows=3)
-  value=name onChange=(action (mut name))}}
-{{#paper-button raised=true primary=true onClick=(action "submitQuestion" name)}}Submit{{/paper-button}}
+<div class="layout-row layout-align-center-center">
+  {{#paper-card class="flex-80"}}
+    <div class="layout-row layout-align-center-center">
+    {{paper-input class="flex-90" textarea=true block=true label="Nowe Pytanie" maxlength=50 passThru=(hash rows=3 maxRows=3)
+      value=name onChange=(action (mut name))}}
+    </div>
+    <div class="layout-row">
+      <span class="flex-80"></span>
+      {{#link-to 'questions'}}
+        {{#paper-button class="flex-5" raised=true primary=true}}
+          Wstecz
+        {{/paper-button}}
+      {{/link-to}}
+      {{#paper-button class="flex-5" raised=true primary=true onClick=(action "submitQuestion" name)}}
+        Stwórz
+      {{/paper-button}}
+    </div>
+  {{/paper-card}}
+</div>
