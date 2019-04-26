@@ -6,8 +6,10 @@
           {{#title.text as |text|}}
             {{#text.headline}}Nowy pokój{{/text.headline}}
             {{#text.subhead}}Stwórz nowy pokój i zaproś znajomych{{/text.subhead}}
-            {{paper-input class="flex-30" label="Name" value=name onChange=(action (mut name))}}
-            {{#paper-button onClick=(action 'createRoom' name)}}Stwórz{{/paper-button}}
+            {{paper-input class="flex-60" label="Nazwa (opcjonalne)" value=name onChange=(action (mut name))}}
+            {{#paper-button class="flex-10" primary=true raised=true onClick=(action 'createRoom' name)}}
+              Stwórz
+            {{/paper-button}}
           {{/title.text}}
           {{title.media size="lg" src="/stworz.png" alt="Stworz" title="Stworz"}}
         {{/card.title}}
@@ -19,8 +21,10 @@
           {{#title.text as |text|}}
             {{#text.headline}}Dołącz{{/text.headline}}
             {{#text.subhead}}Dołącz do istniejącego pokoju{{/text.subhead}}
-            {{paper-input class="flex-30" label="Id pokoju" value=id onChange=(action (mut id))}}
-            {{#paper-button onClick=(action 'findRoom' id)}}Dołącz{{/paper-button}}
+            {{paper-input class="flex-60" label="Id pokoju" value=id onChange=(action (mut id))}}
+            {{#paper-button class="flex-10" primary=true raised=true onClick=(action 'findRoom' id)}}
+              Dołącz
+            {{/paper-button}}
           {{/title.text}}
           {{title.media size="lg" src="/dolacz.png" alt="Dolacz" title="Dolacz"}}
         {{/card.title}}

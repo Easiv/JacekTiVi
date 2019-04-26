@@ -13,13 +13,13 @@ export default Component.extend({
     },
 
     findRoom(id) {
-      if(id.trim()) {
+      if(id != undefined && id.trim()) {
         this.get('store').findRecord('room', id).then(
         this.get('router').transitionTo('room', id)).catch(() => {
-          alert('Nie znaleziono pokoju');
+          alert('Nie znaleziono pokoju z podanym id');
         })
       } else {
-        alert('Nie znaleziono pokoju');
+        alert('Id pokoju nie może być puste');
       }
     }
   }
