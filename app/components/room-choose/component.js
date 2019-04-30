@@ -19,7 +19,7 @@ export default Component.extend({
             currentAnswer: '',
             points: 0
            }).save().then(user => {
-            room.set('userList', [...room.userList, user.name]);
+            room.set('userList', [...room.userList, user.id]);
             room.save();
             this.get('router').transitionTo('room', room.id).catch(() => {
               alert('Coś poszło nie tak');
@@ -45,7 +45,7 @@ export default Component.extend({
               currentAnswer: '',
               points: 0
              }).save().then(user => {
-              room.set('userList', [...room.userList, user.name]);
+              room.set('userList', [...room.userList, user.id]);
               room.save();
               this.get('router').transitionTo('room', m.id).catch(() => {
                 alert('Coś poszło nie tak');
