@@ -10,16 +10,21 @@ export default Component.extend({
       if(name != undefined && name.trim()) {
         const store = this.get('store');
   
-        store.createRecord('room', { name: `Pokój ${name}'a` }).save().then(model => {
+        store.createRecord('room', { name: `Pokój ${name}'a` }).save().then(m => {
+          let room = m;
           store.createRecord('user', { 
             name,
             isOwner: true,
-            roomId: model.id,
+            roomId: room.id,
             currentAnswer: '',
             points: 0
-           }).save().then(() => this.get('router').transitionTo('room', model.id)).catch(() => {
-             alert('Coś poszło nie tak');
-           });
+           }).save().then(user => {
+            room.set('userList', [...room.userList, user.name]);
+            room.save();
+            this.get('router').transitionTo('room', room.id).catch(() => {
+              alert('Coś poszło nie tak');
+            });
+          });
         });
       } else {
         alert('Nick nie może być pusty');
@@ -31,18 +36,21 @@ export default Component.extend({
         if(name != undefined && name.trim()) {
           this.get('store').findRecord('room', id).catch(() => {
             alert('Nie znaleziono pokoju z podanym id');
-          }).then(model => {
+          }).then(m => {
+            let room = m;
             this.get('store').createRecord('user', { 
               name,
               isOwner: false,
-              roomId: model.id,
+              roomId: room.id,
               currentAnswer: '',
               points: 0
-             }).save().then(() => {
-               this.get('router').transitionTo('room', model.id).catch(() => {
+             }).save().then(user => {
+              room.set('userList', [...room.userList, user.name]);
+              room.save();
+              this.get('router').transitionTo('room', m.id).catch(() => {
                 alert('Coś poszło nie tak');
-               });
-             });
+              });
+            });
           });
         } else {
           alert('Nick nie może być pusty');
