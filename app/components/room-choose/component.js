@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 export default Component.extend({
   store: service(),
   router: service(),
+  currentuser: service(),
 
   actions: {
     createRoom(name) {
@@ -21,7 +22,9 @@ export default Component.extend({
            }).save().then(user => {
             room.set('userList', [...room.userList, user.id]);
             room.save();
-            this.get('router').transitionTo('room', room.id).catch(() => {
+            this.get('router').transitionTo('room', room.id).then(() => {
+              this.get('currentuser').changeId(user.id);
+            }).catch(() => {
               alert('Coś poszło nie tak');
             });
           });
@@ -47,7 +50,9 @@ export default Component.extend({
              }).save().then(user => {
               room.set('userList', [...room.userList, user.id]);
               room.save();
-              this.get('router').transitionTo('room', m.id).catch(() => {
+              this.get('router').transitionTo('room', room.id).then(() => {
+                this.get('currentuser').changeId(user.id);
+              }).catch(() => {
                 alert('Coś poszło nie tak');
               });
             });

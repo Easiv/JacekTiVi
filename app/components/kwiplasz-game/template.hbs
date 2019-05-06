@@ -1,1 +1,7 @@
-{{yield}}
+<h1>{{room.name}}</h1>
+
+<h2>Ty jesteś: {{you}}</h2>
+<h2>Obecni użytkownicy:</h2>
+{{#each room.userList as |user idx|}}
+  {{user}}
+{{/each}}
