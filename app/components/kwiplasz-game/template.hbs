@@ -1,7 +1,14 @@
-<h1>{{room.name}}</h1>
-<h1>ID pokoju: {{room.id}}</h1>
-<h2>Ty jesteś: {{user.name}} id({{user.id}})</h2>
-<h2>Obecni użytkownicy:</h2>
+{{#paper-toolbar accent=true}}
+  {{#paper-toolbar-tools}}
+    <h2>Grasz jako: {{user.name}}</h2>
+    <span class="flex-35"></span>
+    <h1>{{room.name}}</h1>
+    <span class="flex-20"></span>
+    <h1>ID pokoju: {{room.id}}</h1>
+  {{/paper-toolbar-tools}}
+{{/paper-toolbar}}
+
+<h2>Obecnie w pokoju:</h2>
 {{#each room.userList as |otherUser|}}
-  {{otherUser.name}} id({{otherUser.id}})
+  {{otherUser.name}}
 {{/each}}
