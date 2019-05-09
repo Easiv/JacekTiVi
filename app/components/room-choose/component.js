@@ -20,7 +20,7 @@ export default Component.extend({
             currentAnswer: '',
             points: 0
            }).save().then(user => {
-            room.set('userList', [...room.userList, user.id]);
+            room.set('userList', [...room.userList, {id: user.id, name: user.name}]);
             room.save();
             this.get('currentuser').changeId(user.id);
             this.get('router').transitionTo('room', room.id).catch(() => {
@@ -47,7 +47,7 @@ export default Component.extend({
               currentAnswer: '',
               points: 0
              }).save().then(user => {
-              room.set('userList', [...room.userList, user.id]);
+              room.set('userList', [...room.userList, {id: user.id, name: user.name}]);
               room.save();
               this.get('currentuser').changeId(user.id);
               this.get('router').transitionTo('room', room.id).catch(() => {
