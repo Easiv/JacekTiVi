@@ -22,9 +22,8 @@ export default Component.extend({
            }).save().then(user => {
             room.set('userList', [...room.userList, user.id]);
             room.save();
-            this.get('router').transitionTo('room', room.id).then(() => {
-              this.get('currentuser').changeId(user.id);
-            }).catch(() => {
+            this.get('currentuser').changeId(user.id);
+            this.get('router').transitionTo('room', room.id).catch(() => {
               alert('Coś poszło nie tak');
             });
           });
@@ -50,9 +49,8 @@ export default Component.extend({
              }).save().then(user => {
               room.set('userList', [...room.userList, user.id]);
               room.save();
-              this.get('router').transitionTo('room', room.id).then(() => {
-                this.get('currentuser').changeId(user.id);
-              }).catch(() => {
+              this.get('currentuser').changeId(user.id);
+              this.get('router').transitionTo('room', room.id).catch(() => {
                 alert('Coś poszło nie tak');
               });
             });

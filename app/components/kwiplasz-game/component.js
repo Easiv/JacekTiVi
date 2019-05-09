@@ -7,7 +7,6 @@ export default Component.extend({
 
   willRender() {
     this._super(...arguments);
-    this.set('you', this.get('currentuser').id)
+    this.set('you', this.get('currentuser').getId());
   }
-
 });
