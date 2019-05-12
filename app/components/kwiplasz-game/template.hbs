@@ -8,8 +8,7 @@
       {{#copy-button 
         clipboardText=room.id
         success=(action "success")
-        error=(action "error")
-      }}
+        error=(action "error")}}
         {{#paper-button raised=true mini=true}}
           {{paper-icon 'file_copy'}}
           {{#paper-tooltip}}
@@ -24,11 +23,11 @@
 <div class="flex-30">
   {{#paper-list}}
     {{#paper-subheader}}<h2>Obecnie w pokoju:</h2>{{/paper-subheader}}
-    {{#each room.userList as |otherUser|}}
+    {{#each userList as |otherUser|}}
       {{#paper-item class="md-3-line"}}
         <div class="md-list-item-text">
           <p>{{otherUser.name}}
-            {{#if user.isOwner}}
+            {{#if otherUser.isOwner}}
               {{paper-icon 'star'}}
             {{/if}}
           </p>
