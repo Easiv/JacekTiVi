@@ -19,8 +19,30 @@
       {{/copy-button}}
   {{/paper-toolbar-tools}}
 {{/paper-toolbar}}
+<br/>
 
-<h2>Obecnie w pokoju:</h2>
-{{#each room.userList as |otherUser|}}
-  {{otherUser.name}}
-{{/each}}
+<div class="flex-30">
+  {{#paper-list}}
+    {{#paper-subheader}}<h2>Obecnie w pokoju:</h2>{{/paper-subheader}}
+    {{#each room.userList as |otherUser|}}
+      {{#paper-item class="md-3-line"}}
+        <div class="md-list-item-text">
+          <p>{{otherUser.name}}
+            {{#if user.isOwner}}
+              {{paper-icon 'star'}}
+            {{/if}}
+          </p>
+        </div>
+      {{/paper-item}}
+    {{/each}}
+    {{paper-divider}}
+  {{/paper-list}}
+
+  <div class="layout-row layout-align-center">
+    {{#if user.isOwner}}
+      {{#paper-button raised=true accent=true}}
+        Start
+      {{/paper-button}}
+    {{/if}}
+  </div>
+</div>
