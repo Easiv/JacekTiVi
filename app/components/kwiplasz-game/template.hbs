@@ -3,8 +3,20 @@
     <h2>Grasz jako: {{user.name}}</h2>
     <span class="flex-35"></span>
     <h1>{{room.name}}</h1>
-    <span class="flex-20"></span>
+    <span class="flex-30"></span>
     <h1>ID pokoju: {{room.id}}</h1>
+      {{#copy-button 
+        clipboardText=room.id
+        success=(action "success")
+        error=(action "error")
+      }}
+        {{#paper-button raised=true mini=true}}
+          {{paper-icon 'file_copy'}}
+          {{#paper-tooltip}}
+            Kliknij aby skopiować ID pokoju
+          {{/paper-tooltip}}
+        {{/paper-button}}
+      {{/copy-button}}
   {{/paper-toolbar-tools}}
 {{/paper-toolbar}}
 
