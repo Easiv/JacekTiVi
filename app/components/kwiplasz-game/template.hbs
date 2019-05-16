@@ -21,27 +21,33 @@
 <br/>
 
 <div class="flex-30">
-  {{#paper-list}}
-    {{#paper-subheader}}<h2>Obecnie w pokoju:</h2>{{/paper-subheader}}
-    {{#each userList as |otherUser|}}
-      {{#paper-item class="md-3-line"}}
-        <div class="md-list-item-text">
-          <p>{{otherUser.name}}
-            {{#if otherUser.isOwner}}
-              {{paper-icon 'star'}}
-            {{/if}}
-          </p>
-        </div>
-      {{/paper-item}}
-    {{/each}}
-    {{paper-divider}}
-  {{/paper-list}}
-
-  <div class="layout-row layout-align-center">
-    {{#if user.isOwner}}
-      {{#paper-button raised=true accent=true}}
-        Start
-      {{/paper-button}}
-    {{/if}}
-  </div>
+  {{#unless room.hasStarted}}
+    {{#paper-list}}
+      {{#paper-subheader}}<h2>Obecnie w pokoju:</h2>{{/paper-subheader}}
+      {{#each userList as |otherUser|}}
+        {{#paper-item class="md-3-line"}}
+          <div class="md-list-item-text">
+            <p>
+              {{otherUser.name}}
+              {{#if otherUser.isOwner}}
+                {{paper-icon 'star'}}
+              {{/if}}
+            </p>
+          </div>
+        {{/paper-item}}
+      {{/each}}
+      {{paper-divider}}
+    {{/paper-list}}
+      <div class="layout-row layout-align-center">
+        {{#if user.isOwner}}
+          {{#paper-button raised=true accent=true onClick=(action 'startGame')}}
+            Start
+          {{/paper-button}}
+        {{/if}}
+      </div>
+      {{else}}
+        {{question.name}}
+        {{room.hasStarted}}
+        <h1>{{countdown}}</h1>
+  {{/unless}}
 </div>

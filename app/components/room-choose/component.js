@@ -11,7 +11,14 @@ export default Component.extend({
       if(name != undefined && name.trim()) {
         const store = this.get('store');
   
-        store.createRecord('room', { name: `Pokój ${name}'a` }).save().then(m => {
+        store.createRecord('room', { 
+          name: `Pokój ${name}'a`,
+          userList: [],
+          hasStarted: false,
+          writingPhase: false,
+          comparePhase: false,
+          finalPhase: false
+        }).save().then(m => {
           let room = m;
           store.createRecord('user', { 
             name,
@@ -20,7 +27,7 @@ export default Component.extend({
             currentAnswer: '',
             points: 0
            }).save().then(user => {
-            room.set('userList', [...room.userList, {id: user.id, name: user.name}]);
+            room.set('userList', [{id: user.id, name: user.name}]);
             room.save();
             this.get('currentuser').changeId(user.id);
             this.get('router').transitionTo('room', room.id).catch(() => {
