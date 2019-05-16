@@ -46,8 +46,10 @@
         {{/if}}
       </div>
       {{else}}
-        {{question.name}}
-        {{room.hasStarted}}
+      <div class="layout-row layout-align-center-center">
         <h1>{{countdown}}</h1>
+      </div>
+        <SingleQuestion @question={{question}}/>
+        {{room.hasStarted}}
   {{/unless}}
 </div>

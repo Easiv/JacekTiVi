@@ -12,20 +12,18 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    this.store.findAll('user')
-    .then(users => {
+    this.store.findAll('user').then(users => {
       let userList = users.filterBy('roomId', this.get('roomId'));
       this.set('userList', userList);
     });
   },
 
   writingTime() {
-    this.get('store').findRecord('room', this.get('roomId')).then((room) => {
+    this.get('store').findRecord('room', this.get('roomId')).then(room => {
       room.set('writingTime', true)
       room.save();
 
       let countdown = 60;
-
       let timer = setInterval(() => {
         if(countdown >= 0) {
           this.set('countdown', countdown);
@@ -34,6 +32,8 @@ export default Component.extend({
           alert('Koniec czasu!');
           clearInterval(timer);
           return null;
+          //gdy nie wpisal ktos odpowiedzi wyslij ze nie wpisal
+          // i tak czy siak
         }
       }, 1000);
     });

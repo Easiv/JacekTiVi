@@ -1,0 +1,13 @@
+{{yield}}
+{{#paper-card as |card|}}
+  {{#card.title as |title|}}
+    {{#title.text as |text|}}
+      {{#text.headline}}{{question.name}}{{/text.headline}}
+    {{/title.text}}
+  {{/card.title}}
+  {{paper-input textarea=true block=true label="Odpowiedź" maxlength=50 passThru=(hash rows=5 maxRows=5)
+  value=answer onChange=(action (mut answer))}}
+  {{#card.actions}}
+    {{#paper-button}}Wyślij{{/paper-button}}
+  {{/card.actions}}
+{{/paper-card}}
