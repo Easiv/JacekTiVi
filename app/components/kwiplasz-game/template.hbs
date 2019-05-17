@@ -20,8 +20,8 @@
 {{/paper-toolbar}}
 <br/>
 
-<div class="flex-30">
-  {{#unless room.hasStarted}}
+{{#unless room.hasStarted}}
+  <div class="flex-30">
     {{#paper-list}}
       {{#paper-subheader}}<h2>Obecnie w pokoju:</h2>{{/paper-subheader}}
       {{#each userList as |otherUser|}}
@@ -45,11 +45,14 @@
           {{/paper-button}}
         {{/if}}
       </div>
-      {{else}}
-      <div class="layout-row layout-align-center-center">
-        <h1>{{countdown}}</h1>
-      </div>
-        <SingleQuestion @question={{question}}/>
-        {{room.hasStarted}}
-  {{/unless}}
-</div>
+  </div>
+{{else}}
+  <div class="layout-row layout-align-center-center">
+    <h1>{{countdown}}</h1>
+  </div>
+  <div class="flex-50">
+    <SingleQuestion @question={{question}} @room={{room}}/>
+  </div>
+{{/unless}}
+
+  

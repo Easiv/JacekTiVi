@@ -8,6 +8,8 @@
   {{paper-input textarea=true block=true label="Odpowiedź" maxlength=50 passThru=(hash rows=5 maxRows=5)
   value=answer onChange=(action (mut answer))}}
   {{#card.actions}}
-    {{#paper-button}}Wyślij{{/paper-button}}
+    {{#paper-button primary=true raised=true onClick=(action 'submitAnswer' answer)}}
+      Wyślij
+    {{/paper-button}}
   {{/card.actions}}
 {{/paper-card}}

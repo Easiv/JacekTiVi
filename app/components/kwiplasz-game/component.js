@@ -24,11 +24,17 @@ export default Component.extend({
       room.save();
 
       let countdown = 60;
+      this.set('countdown', countdown);
+      
       let timer = setInterval(() => {
         if(countdown >= 0) {
+          if(!this.get('countdown')) {
+            clearInterval(timer);
+          }
           this.set('countdown', countdown);
           countdown--;
-        } else {
+        } 
+        else {
           alert('Koniec czasu!');
           clearInterval(timer);
           return null;
