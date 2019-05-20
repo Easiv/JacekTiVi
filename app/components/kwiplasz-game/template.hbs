@@ -50,9 +50,12 @@
   <div class="layout-row layout-align-center-center">
     <h1>{{countdown}}</h1>
   </div>
-  <div class="flex-50">
-    <SingleQuestion @question={{question}} @room={{room}}/>
+  <div class="layout-row layout-wrap">
+    {{#each questions as |question|}}
+      <div class="flex-50">
+        <SingleQuestion @question={{question}} @room={{room}}/>
+      </div>
+    {{/each}}
   </div>
 {{/unless}}
 
-  
