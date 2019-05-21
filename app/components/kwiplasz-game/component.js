@@ -5,9 +5,10 @@ export default Component.extend({
   store: service(),
   hasStarted: false,
   roomId: null,
+  user: null,
   userList: null,
-  questions: [],
   countdown: null,
+  questions: [],
 
   init() {
     this._super(...arguments);
@@ -44,8 +45,6 @@ export default Component.extend({
   },
 
   randomThree(questions) {
-    //questions = questions.rejectBy('id', '5ce2ec4e89278f0cdf8fd817');
-
     let maxInt = questions.length;
     let previousRandoms = [];
     
@@ -69,11 +68,11 @@ export default Component.extend({
 
           if(used.length) {
             used.forEach(q => {
-              questions = questions.rejectBy('id', q.id)
+              questions = questions.rejectBy('id', q.id);
             });
             this.randomThree(questions);
           } else {
-            questions = questions.rejectBy('id', null)
+            questions = questions.rejectBy('id', null);
             this.randomThree(questions);
           }
           this.get('questions').forEach(x => used.push(x.id));

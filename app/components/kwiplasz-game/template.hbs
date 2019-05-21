@@ -53,9 +53,14 @@
   <div class="layout-row layout-wrap">
     {{#each questions as |question|}}
       <div class="flex-50">
-        <SingleQuestion @question={{question}} @room={{room}}/>
+        <SingleQuestion @question={{question}} @alreadyAnswered={{alreadyAnswered}}
+                        @room={{room}} @user={{user}}/>
       </div>
     {{/each}}
+    <h1>{{user.currentAnswer}}</h1>
+    {{#if user.currentAnswer}}
+      Dziękujemy za odpowiedź!
+    {{/if}}
   </div>
 {{/unless}}
 

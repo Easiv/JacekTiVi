@@ -1,14 +1,15 @@
 import Component from '@ember/component';
 
 export default Component.extend({
-  answer: null,
   room: null,
+  user: null,
 
   actions: {
     submitAnswer(answer) {
-      alert(answer);
-      // this.set('answer', answer);
-      // this.set('room.writingTime', false);
+      let user = this.get('user');
+
+      user.set('currentAnswer', answer);
+      user.save();
     }
   }
 });
