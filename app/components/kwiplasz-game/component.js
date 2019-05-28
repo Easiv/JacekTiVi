@@ -5,19 +5,11 @@ export default Component.extend({
   store: service(),
   hasStarted: false,
   roomId: null,
+  prop: null,
   user: null,
   userList: null,
   countdown: null,
   questions: [],
-
-  init() {
-    this._super(...arguments);
-
-    this.store.findAll('user').then(users => {
-      let userList = users.filterBy('roomId', this.get('roomId'));
-      this.set('userList', userList);
-    });
-  },
 
   writingTime() {
     this.get('store').findRecord('room', this.get('roomId')).then(room => {
@@ -60,22 +52,33 @@ export default Component.extend({
     }
   },
 
+  assignQuestions(users, questions) {
+    console.log(users);
+    console.log(questions);
+  },
+
   actions: {
     startGame() {
-      this.get('store').findRecord('room', this.get('roomId')).then(room => {
-        this.get('store').findAll('question').then(questions => {
-          let used = room.usedQuestions;
+      let store = this.get('store');
 
-          if(used.length) {
-            used.forEach(q => {
-              questions = questions.rejectBy('id', q.id);
-            });
-            this.randomThree(questions);
-          } else {
-            questions = questions.rejectBy('id', null);
-            this.randomThree(questions);
-          }
-          this.get('questions').forEach(x => used.push(x.id));
+      store.findRecord('room', this.get('roomId')).then(room => {
+        store.findAll('question').then(questions => {
+          store.findAll('user').then(users => {
+            let userList = users.filterBy('roomId', this.get('roomId'));
+            let used = room.usedQuestions;
+            
+            if(used.length) {
+              used.forEach(q => {
+                questions = questions.rejectBy('id', q.id);
+              });
+              this.randomThree(questions);
+            } else {
+              questions = questions.rejectBy('id', null);
+              this.randomThree(questions);
+            }
+            this.get('questions').forEach(x => used.push(x.id));
+            this.assignQuestions(userList, questions);
+          });
         })
         room.set('hasStarted', true);
         room.save();

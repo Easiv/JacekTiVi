@@ -24,7 +24,7 @@
   <div class="flex-30">
     {{#paper-list}}
       {{#paper-subheader}}<h2>Obecnie w pokoju:</h2>{{/paper-subheader}}
-      {{#each userList as |otherUser|}}
+      {{#each room.userList as |otherUser|}}
         {{#paper-item class="md-3-line"}}
           <div class="md-list-item-text">
             <p>
@@ -63,4 +63,5 @@
     {{/if}}
   </div>
 {{/unless}}
+<WebsocketTest @prop={{prop}} @room={{room}}/>
 
