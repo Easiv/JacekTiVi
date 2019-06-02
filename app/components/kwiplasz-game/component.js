@@ -40,8 +40,13 @@ export default Component.extend({
   myMessageHandler(event) {
     console.log(`Message: ${event.data}`);
 
-    if(event.data == 'start' && !this.get('startRunning')) {
-      this.start();
+    if(event.data == 'writingKwipGame') {
+      this.writingTime();
+    }
+
+    if(JSON.parse(event.data)[0] == 'startKwipGame') {
+      const ids = JSON.parse(event.data)[1];
+      this.start2(ids);
     }
   },
 
@@ -49,11 +54,46 @@ export default Component.extend({
     console.log(`On close event has been called: ${event}`);
   },
 
-  start() {
-    this.set('startRunning', true);
-    this.socketRef.send('start');
-    let store = this.get('store');
+  initiate() {
+    this.get('store').findAll('question').then(questions => {
+      this.get('store').findRecord('room', this.get('roomId')).then(room => {
+        questions = questions.rejectBy('id', null);
+        let randomed = this.randomThree(questions);
 
+        room.set('presentQuestions', randomed);
+        room.set('usedQuestions', randomed);
+        room.save();
+
+        this.socketRef.send(JSON.stringify(['startKwipGame', room.presentQuestions]));
+      })
+    })
+  },
+
+  start2(ids) {
+    let store = this.get('store');
+    
+    store.findRecord('room', this.get('roomId')).then(room => {
+      store.findAll('user').then(users => {
+        ids.forEach(id => {
+          let question = store.findRecord('question', id);
+          this.get('questions').pushObject(question);
+        });
+
+        let userList = users.filterBy('roomId', this.get('roomId'));
+        this.set('userList', userList);
+        room.set('userList', userList);
+        room.set('hasStarted', true);
+        room.save();
+
+        this.socketRef.send('writingKwipGame');
+      });
+    });
+  },
+
+  oldStart() {
+    this.set('startRunning', true);
+    let store = this.get('store');
+    
     store.findRecord('room', this.get('roomId')).then(room => {
       store.findAll('question').then(questions => {
         store.findAll('user').then(users => {
@@ -71,11 +111,14 @@ export default Component.extend({
           }
           this.get('questions').forEach(x => used.push(x.id));
           this.assignQuestions(userList, questions);
+          used.forEach(x => this.socketRef.send(x));
+          room.set('usedQuestions', used);
+          room.set('hasStarted', true);
+          room.save();
+          this.socketRef.send('start');
+          this.writingTime();
         });
-      })
-      room.set('hasStarted', true);
-      room.save();
-      this.writingTime();
+      });
     });
   },
 
@@ -107,6 +150,7 @@ export default Component.extend({
   randomThree(questions) {
     let maxInt = questions.length;
     let previousRandoms = [];
+    let randomed = [];
     
     for(let i = 0; i < 3; i++) {
       let random = Math.floor(Math.random() * maxInt);
@@ -114,10 +158,11 @@ export default Component.extend({
       if(previousRandoms.includes(random)) {
         i--;
       } else {
-        this.get('questions').pushObject(questions[random]);
+        randomed.pushObject(questions[random].id);
       }
       previousRandoms.push(random);
     }
+    return randomed;
   },
 
   assignQuestions(users, questions) {
@@ -127,7 +172,7 @@ export default Component.extend({
 
   actions: {
     startGame() {
-      this.start();
+      this.initiate();
 
       //6 pytan, bo na razie wersja na 3 osoby - pozniej ta pula rozdzielana jest posrod graczy
       // gdzie kazdy z nich konkuruje odpowiedzia, one rozdysponowane sa a - gracz, b - pytanie

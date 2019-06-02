@@ -14,6 +14,7 @@ export default Component.extend({
         store.createRecord('room', { 
           name: `Pokój ${name}'a`,
           userList: [],
+          presentQuestions: [],
           usedQuestions: [],
           hasStarted: false,
           writingPhase: false,

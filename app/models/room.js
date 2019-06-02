@@ -4,6 +4,7 @@ import attr from 'ember-data/attr';
 export default DS.Model.extend({
   name: attr(),
   userList: attr(),
+  presentQuestions: attr(),
   usedQuestions: attr(),
   hasStarted: attr(),
   writingPhase: attr(),
