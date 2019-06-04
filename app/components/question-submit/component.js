@@ -8,8 +8,10 @@ export default Component.extend({
   actions: {
     submitQuestion(name) {
       this.get('store').createRecord('question', {
-        name
-      }).save()
+        name,
+        ident: null
+      }).save();
+      
       this.get('router').transitionTo('questions');
     }
   }

@@ -51,7 +51,7 @@
     <h1>{{countdown}}</h1>
   </div>
   <div class="layout-row layout-wrap">
-    {{#each questions as |question|}}
+    {{#each room.presentQuestions as |question|}}
       <div class="flex-50">
         <SingleQuestion @question={{question}} @alreadyAnswered={{alreadyAnswered}}
                         @room={{room}} @user={{user}}/>

@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service';
 export default Component.extend({
   store: service(),
   websockets: service(),
+  room: null,
   socketRef: null,
   hasStarted: false,
   startRunning: false,
@@ -11,7 +12,6 @@ export default Component.extend({
   user: null,
   userList: null,
   countdown: null,
-  questions: [],
 
   didInsertElement() {
     this._super(...arguments);
@@ -46,7 +46,7 @@ export default Component.extend({
 
     if(JSON.parse(event.data)[0] == 'startKwipGame') {
       const ids = JSON.parse(event.data)[1];
-      this.start2(ids);
+      this.start(ids);
     }
   },
 
@@ -60,29 +60,30 @@ export default Component.extend({
         questions = questions.rejectBy('id', null);
         let randomed = this.randomThree(questions);
 
-        room.set('presentQuestions', randomed);
         room.set('usedQuestions', randomed);
         room.save();
 
-        this.socketRef.send(JSON.stringify(['startKwipGame', room.presentQuestions]));
+        this.socketRef.send(JSON.stringify(['startKwipGame', randomed]));
       })
     })
   },
 
-  start2(ids) {
+  start(ids) {
     let store = this.get('store');
     
     store.findRecord('room', this.get('roomId')).then(room => {
       store.findAll('user').then(users => {
         ids.forEach(id => {
-          let question = store.findRecord('question', id);
-          this.get('questions').pushObject(question);
+          store.findRecord('question', id).then(question => {
+            room.set('presentQuestions', [...room.presentQuestions, question]);
+            room.save();
+          })
         });
 
         let userList = users.filterBy('roomId', this.get('roomId'));
-        this.set('userList', userList);
         room.set('userList', userList);
         room.set('hasStarted', true);
+        room.set('writingTime', true);
         room.save();
 
         this.socketRef.send('writingKwipGame');
@@ -90,61 +91,24 @@ export default Component.extend({
     });
   },
 
-  oldStart() {
-    this.set('startRunning', true);
-    let store = this.get('store');
-    
-    store.findRecord('room', this.get('roomId')).then(room => {
-      store.findAll('question').then(questions => {
-        store.findAll('user').then(users => {
-          let userList = users.filterBy('roomId', this.get('roomId'));
-          let used = room.usedQuestions;
-          
-          if(used.length) {
-            used.forEach(q => {
-              questions = questions.rejectBy('id', q.id);
-            });
-            this.randomThree(questions);
-          } else {
-            questions = questions.rejectBy('id', null);
-            this.randomThree(questions);
-          }
-          this.get('questions').forEach(x => used.push(x.id));
-          this.assignQuestions(userList, questions);
-          used.forEach(x => this.socketRef.send(x));
-          room.set('usedQuestions', used);
-          room.set('hasStarted', true);
-          room.save();
-          this.socketRef.send('start');
-          this.writingTime();
-        });
-      });
-    });
-  },
-
   writingTime() {
-    this.get('store').findRecord('room', this.get('roomId')).then(room => {
-      room.set('writingTime', true)
-      room.save();
-
-      let countdown = 60;
-      this.set('countdown', countdown);
-      
-      let timer = setInterval(() => {
-        if(countdown >= 0) {
-          if(!this.get('countdown')) {
-            clearInterval(timer);
-          }
-          this.set('countdown', countdown);
-          countdown--;
-        } 
-        else {
-          alert('Koniec czasu!');
+    let countdown = 60;
+    this.set('countdown', countdown);
+    
+    let timer = setInterval(() => {
+      if(countdown >= 0) {
+        if(!this.get('countdown')) {
           clearInterval(timer);
-          return null;
         }
-      }, 1000);
-    });
+        this.set('countdown', countdown);
+        countdown--;
+      } 
+      else {
+        alert('Koniec czasu!');
+        clearInterval(timer);
+        return null;
+      }
+    }, 1000);
   },
 
   randomThree(questions) {
