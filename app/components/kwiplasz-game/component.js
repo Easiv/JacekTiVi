@@ -56,6 +56,15 @@ export default Component.extend({
       const ids = JSON.parse(event.data)[1];
       this.start(ids);
     }
+
+    if(JSON.parse(event.data)[0] == 'roomUsers') {
+      this.get('store').findRecord('room', this.get('roomId')).then(room => {
+        if(room.userList.length < event.data[1].length) {
+          console.log('aaaaa')
+          room.set('userList', event.data[1]);
+        }
+      })
+    }
   },
 
   myCloseHandler(event) {
@@ -87,8 +96,10 @@ export default Component.extend({
             room.save();
           })
         });
-
+        console.log(room.userList);
         let userList = users.filterBy('roomId', this.get('roomId'));
+        console.log(userList)
+
         room.set('userList', userList);
         room.set('hasStarted', true);
         room.set('writingTime', true);
@@ -139,7 +150,16 @@ export default Component.extend({
 
   assignQuestions(users, questions) {
     console.log(users);
-    console.log(questions);
+    console.log(questions)
+    let assignments = [];
+
+    if(users.length == 3) {
+      assignments.push({question: questions[0], users: [users[0], users[1]]});
+      assignments.push({question: questions[1], users: [users[1], users[2]]});
+      assignments.push({question: questions[2], users: [users[0], users[2]]});
+    }
+
+    return assignments;
   },
 
   actions: {
