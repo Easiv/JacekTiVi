@@ -35,10 +35,18 @@ export default Component.extend({
 
   myOpenHandler(event) {
     console.log(`On open event has been called: ${event}`);
+
+    this.socketRef.send(JSON.stringify(['newUser', this.get('room').userList.length]));
   },
 
   myMessageHandler(event) {
     console.log(`Message: ${event.data}`);
+
+    if(JSON.parse(event.data)[0] == 'newUser') {
+      if(this.get('room').userList.length < JSON.parse(event.data)[1]) {
+        location.reload();
+      }
+    }
 
     if(event.data == 'writingKwipGame') {
       this.writingTime();
@@ -137,11 +145,6 @@ export default Component.extend({
   actions: {
     startGame() {
       this.initiate();
-
-      //6 pytan, bo na razie wersja na 3 osoby - pozniej ta pula rozdzielana jest posrod graczy
-      // gdzie kazdy z nich konkuruje odpowiedzia, one rozdysponowane sa a - gracz, b - pytanie
-      //  b1a1 : b1a2, b2a1 : b2a3, b3a2 : b3a3
-      //  b4a1 : b4a2, b5a1: b5a3, b6a2 : b6a3;
     },
     
     success() {},
