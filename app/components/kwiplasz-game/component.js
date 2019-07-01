@@ -41,14 +41,14 @@ export default Component.extend({
 
   myMessageHandler(event) {
     console.log(`Message: ${event.data}`);
-
+    
     if(JSON.parse(event.data)[0] == 'newUser') {
       if(this.get('room').userList.length < JSON.parse(event.data)[1]) {
         location.reload();
       }
     }
 
-    if(event.data == 'writingKwipGame') {
+    if(JSON.parse(event.data) == 'writingKwipGame') {
       this.writingTime();
     }
 
@@ -105,7 +105,7 @@ export default Component.extend({
         room.set('writingTime', true);
         room.save();
 
-        this.socketRef.send('writingKwipGame');
+        this.socketRef.send(JSON.stringify('writingKwipGame'));
       });
     });
   },
