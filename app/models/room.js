@@ -6,6 +6,7 @@ export default DS.Model.extend({
   userList: attr(),
   presentQuestions: attr(),
   usedQuestions: attr(),
+  answeredQuestions: attr(),
   hasStarted: attr(),
   writingPhase: attr(),
   comparePhase: attr(),

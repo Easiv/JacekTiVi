@@ -15,3 +15,11 @@
     {{/paper-button}}
   {{/card.actions}}
 {{/paper-card}}
+
+{{#each room.answeredQuestions as |ansQuestion|}}
+  Id pytania: {{ansQuestion.id}}
+  {{#each ansQuestion.answers as |answer|}}
+    UserID: {{answer.userId}}
+    Answer: {{answer.answer}}
+  {{/each}}
+{{/each}}

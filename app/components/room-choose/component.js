@@ -16,6 +16,7 @@ export default Component.extend({
           userList: [],
           presentQuestions: [],
           usedQuestions: [],
+          answeredQuestions: [],
           hasStarted: false,
           writingPhase: false,
           comparePhase: false,
