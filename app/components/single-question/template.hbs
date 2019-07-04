@@ -10,16 +10,8 @@
   {{paper-input textarea=true block=true label="Odpowiedź" maxlength=50 passThru=(hash rows=5 maxRows=5)
   value=answer onChange=(action (mut answer))}}
   {{#card.actions}}
-    {{#paper-button primary=true raised=true onClick=(action 'submitAnswer' answer)}}
+    {{#paper-button primary=true raised=true onClick=(action 'submitAnswer' answer question)}}
       Wyślij
     {{/paper-button}}
   {{/card.actions}}
 {{/paper-card}}
-
-{{#each room.answeredQuestions as |ansQuestion|}}
-  Id pytania: {{ansQuestion.id}}
-  {{#each ansQuestion.answers as |answer|}}
-    UserID: {{answer.userId}}
-    Answer: {{answer.answer}}
-  {{/each}}
-{{/each}}

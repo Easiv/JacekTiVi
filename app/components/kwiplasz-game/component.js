@@ -56,15 +56,6 @@ export default Component.extend({
       const ids = JSON.parse(event.data)[1];
       this.start(ids);
     }
-
-    if(JSON.parse(event.data)[0] == 'roomUsers') {
-      this.get('store').findRecord('room', this.get('roomId')).then(room => {
-        if(room.userList.length < event.data[1].length) {
-          console.log('aaaaa')
-          room.set('userList', event.data[1]);
-        }
-      })
-    }
   },
 
   myCloseHandler(event) {
@@ -76,10 +67,29 @@ export default Component.extend({
       this.get('store').findRecord('room', this.get('roomId')).then(room => {
         questions = questions.rejectBy('id', null);
         let randomed = this.randomThree(questions);
+        let answered = [];
 
-        room.set('usedQuestions', randomed);
-        room.save();
-
+        let setAnswers = () => {
+          randomed.forEach(id => {
+            this.get('store').findRecord('question', id).then(question => {
+              answered.pushObject({
+                id: question.ident,
+                questionName: question.name,
+                answers: []
+              })
+            })
+          })
+          return answered;
+        }
+        
+        let letSave = async () => {
+          await setAnswers()
+          room.set('answeredQuestions', answered)
+          room.set('usedQuestions', randomed);
+          await room.save();
+        }
+        
+        letSave();
         this.socketRef.send(JSON.stringify(['startKwipGame', randomed]));
       })
     })
@@ -87,7 +97,7 @@ export default Component.extend({
 
   start(ids) {
     let store = this.get('store');
-    
+  
     store.findRecord('room', this.get('roomId')).then(room => {
       store.findAll('user').then(users => {
         ids.forEach(id => {
@@ -96,15 +106,12 @@ export default Component.extend({
             room.save();
           })
         });
-        console.log(room.userList);
         let userList = users.filterBy('roomId', this.get('roomId'));
-        console.log(userList)
 
         room.set('userList', userList);
         room.set('hasStarted', true);
         room.set('writingTime', true);
         room.save();
-
         this.socketRef.send(JSON.stringify('writingKwipGame'));
       });
     });
@@ -146,20 +153,6 @@ export default Component.extend({
       previousRandoms.push(random);
     }
     return randomed;
-  },
-
-  assignQuestions(users, questions) {
-    console.log(users);
-    console.log(questions)
-    let assignments = [];
-
-    if(users.length == 3) {
-      assignments.push({question: questions[0], users: [users[0], users[1]]});
-      assignments.push({question: questions[1], users: [users[1], users[2]]});
-      assignments.push({question: questions[2], users: [users[0], users[2]]});
-    }
-
-    return assignments;
   },
 
   actions: {

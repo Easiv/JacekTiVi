@@ -63,3 +63,10 @@
     {{/if}}
   </div>
 {{/unless}}
+
+{{#each room.answeredQuestions as |ansQuestion|}}
+<h1>Pytanie: {{ansQuestion.id}}</h1>
+  {{#each ansQuestion.answers as |answersObj|}}
+    <h3> - UserId: {{answersObj.userId}} - {{answersObj.answer}}</h3>
+  {{/each}}
+{{/each}}
