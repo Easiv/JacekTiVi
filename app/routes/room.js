@@ -9,8 +9,8 @@ export default Route.extend({
     let user = this.get('currentuser').getId();
 
     return RSVP.hash({
-      room: this.store.findRecord('room', params.room_id),
-      user: this.store.findRecord('user', user)
+      room: this.store.findRecord('room', params.room_id, { reload: true }),
+      user: this.store.findRecord('user', user, { reload: true })
     })
   }
 });

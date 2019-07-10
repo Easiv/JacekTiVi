@@ -3,13 +3,14 @@
   {{#card.title as |title|}}
     {{#title.text as |text|}}
       {{#text.headline}}{{question.name}}{{/text.headline}}
-      <h4>{{question.id}}</h4>
+      <h4>{{question.ident}}</h4>
+      <h5>{{question.id}}</h5>
     {{/title.text}}
   {{/card.title}}
   {{paper-input textarea=true block=true label="Odpowiedź" maxlength=50 passThru=(hash rows=5 maxRows=5)
   value=answer onChange=(action (mut answer))}}
   {{#card.actions}}
-    {{#paper-button primary=true raised=true onClick=(action 'submitAnswer' answer)}}
+    {{#paper-button primary=true raised=true onClick=(action 'submitAnswer' answer question)}}
       Wyślij
     {{/paper-button}}
   {{/card.actions}}

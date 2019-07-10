@@ -24,7 +24,7 @@
   <div class="flex-30">
     {{#paper-list}}
       {{#paper-subheader}}<h2>Obecnie w pokoju:</h2>{{/paper-subheader}}
-      {{#each userList as |otherUser|}}
+      {{#each room.userList as |otherUser|}}
         {{#paper-item class="md-3-line"}}
           <div class="md-list-item-text">
             <p>
@@ -51,7 +51,7 @@
     <h1>{{countdown}}</h1>
   </div>
   <div class="layout-row layout-wrap">
-    {{#each questions as |question|}}
+    {{#each room.presentQuestions as |question|}}
       <div class="flex-50">
         <SingleQuestion @question={{question}} @alreadyAnswered={{alreadyAnswered}}
                         @room={{room}} @user={{user}}/>
@@ -64,3 +64,9 @@
   </div>
 {{/unless}}
 
+{{#each room.answeredQuestions as |ansQuestion|}}
+<h1>Pytanie: {{ansQuestion.id}}</h1>
+  {{#each ansQuestion.answers as |answersObj|}}
+    <h3> - UserId: {{answersObj.userId}} - {{answersObj.answer}}</h3>
+  {{/each}}
+{{/each}}
